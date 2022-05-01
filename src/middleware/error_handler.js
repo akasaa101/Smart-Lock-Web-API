@@ -1,7 +1,7 @@
 const logger = require('../../logger')
 
 function errorLogger(error, req, res, next) {
-	logger.error('❌ ', error.message)
+	logger.error(error.message)
 	next(error)
 }
 

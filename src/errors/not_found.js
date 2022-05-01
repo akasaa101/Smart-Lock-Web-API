@@ -3,7 +3,7 @@ class NotFoundError extends Error {
 		super(`Not Found Error`)
 		this.type = 'notfound'
 		this.title = 'Not Found Error'
-		this.message = 'Object can not be found'
+		this.message = 'Object can not found'
 		this.object = objectName
 		this.status = 404
 	}

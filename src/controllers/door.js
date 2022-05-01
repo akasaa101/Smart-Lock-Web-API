@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const logger = require('../../logger')
-const { MongooseError, ConflictError } = require('../errors')
+const { MongooseError, ConflictError, NotFoundError } = require('../errors')
 
 const Door = require('../models/door')
 
@@ -33,24 +33,47 @@ class DoorController {
 			})
 	}
 
-	static async getDoor(req, res) {
-		logger.info(`Handle request for getAllDoors`)
-		res.status(200).json({ status: 'success' })
+	static async getAllDoors(req, res, next) {
+		logger.info('[+] CONTROLLER - createDoor  =>  Handle request')
+
+		Door.find()
+			.then((doors) => {
+				res.status(200).json({
+					status: 'success',
+					message: 'created',
+					doors: doors.map((v) => ({
+						// eslint-disable-next-line no-underscore-dangle
+						id: v._id,
+						number: v.number,
+						status: v.status,
+					})),
+				})
+			})
+			.catch((error) => {
+				next(new MongooseError(error.code, error.message))
+			})
 	}
 
-	static async getAllDoors(req, res) {
-		logger.info(`Handle request for getAllDoors`)
-		res.status(200).json({ status: 'success' })
-	}
+	static async getDoor(req, res, next) {
+		logger.info('[+] CONTROLLER - getDoor  =>  Handle request')
 
-	static async updateDoor(req, res) {
-		logger.info(`Handle request for getAllDoors`)
-		res.status(200).json({ status: 'success' })
-	}
-
-	static async deleteDoor(req, res) {
-		logger.info(`Handle request for getAllDoors`)
-		res.status(200).json({ status: 'success' })
+		Door.findById(req.params.doorID)
+			.then((door) => {
+				if (door === null) return next(new NotFoundError())
+				res.status(200).json({
+					status: 'success',
+					message: 'success',
+					door: {
+						// eslint-disable-next-line no-underscore-dangle
+						id: door._id,
+						number: door.number,
+						status: door.status,
+					},
+				})
+			})
+			.catch((err) => {
+				next(new MongooseError(err.code, err.message))
+			})
 	}
 }
 

@@ -14,57 +14,38 @@ describe('Create Door', () => {
 		expect(response.status).toBe(201)
 		expect(response.body.status).toEqual('success')
 		expect(response.body.message).toEqual('created')
-		expect(response.body.door).toBeDefined()
+		expect(response.body.door.id).toBeDefined()
+		expect(response.body.door.number).toBeDefined()
 	})
-	// TODO => Comment out when request body validation is done
-	/* it('POST /customers - With invalid email or phone number on body, response status should return as 400, and response body should contain message.', async () => {
-		const customer = {
-			name: chance.first(),
-			surname: chance.last(),
-			phone: chance.phone(),
-			email: 'invalid@email',
-			password: chance.string({ length: 8, alpha: true, numeric: true, symbols: true }),
-		}
-		const response = await request.post('/customers').send(customer)
-		expect(response.status).toBe(400)
-		expect(response.body.status).toEqual('failed')
-	}) */
 })
 
-/* describe('Get All Doors', () => {
-	it('GET /doors - With vanillia request, response status should return as 200, and response body should contain doors', async () => {
+describe('Get All Doors', () => {
+	it('GET /doors - With vanillia request, response status should return as 200, and response body should contain all doors', async () => {
 		const response = await request.get('/doors')
 		expect(response.status).toBe(200)
 		expect(response.body.status).toEqual('success')
 		expect({ 'Content-Type': 'application/json' })
 		expect(/{"message":".*","status":"success"}/)
+		expect(response.body.doors).toBeDefined()
 	})
 })
 
-describe('Get Single Customer', () => {
+describe('Get Single Door', () => {
 	it('GET /doors/:doorID - With valid doorID on URL params, response status should return as 200, and response body should contain exact door', async () => {
-		const response = await request.get('/doors/626dd510230fe728f740d574')
+		const response = await request.get('/doors/626e8c979ed4db0c6c45118a')
 		expect(response.status).toBe(200)
 		expect(response.body.status).toEqual('success')
 		expect({ 'Content-Type': 'application/json' })
-		expect(response.body.customer).toBeDefined()
+		expect(response.body.door).toBeDefined()
+		expect(response.body.door.id).toBeDefined()
+		expect(response.body.door.number).toBeDefined()
+		expect(response.body.door.status).toBeDefined()
 	})
-	it('GET /customer/:customer_id - With invalid customer id on URL params, response status should return as 404, and response body should contain notfound message', async () => {
-		const response = await request.get('/customers/626dd510230fe728f740d574')
-		expect(response.status).toBe(200)
-		expect(response.body.status).toEqual('success')
+	it('GET /doors/:doorID - With invalid doorID id on URL params, response status should return as 404, and response body should contain notfound message', async () => {
+		const response = await request.get('/doors/626e8c979ed4db0c6c45112a')
+		expect(response.status).toBe(404)
+		expect(response.body.status).toEqual('failed')
+		expect(response.body.message).toEqual('Object can not found')
 		expect({ 'Content-Type': 'application/json' })
-		expect(response.body.customer).toBeDefined()
 	})
-})
- */
-describe('Update Status For A Door', () => {
-	// TODO needed dynamic custumerID for this test working correctly. If not, Its propably be FAIL instead of PASSED
-	/* it('DELETE /customer/:customer_id - With valid customer id, response status should return as 200, and response body should contain new version of customer', async () => {
-		const response = await request.delete('/customers/626dd572f0fa37dd1c70f403')
-		expect(response.status).toBe(200)
-		expect(response.body.status).toEqual('success')
-		expect(response.body.message).toEqual('deleted')
-		expect({ 'Content-Type': 'application/json' })
-	}) */
 })
