@@ -1,5 +1,6 @@
 const express = require('express')
 const CustomerRouter = require('./customer')
+const DoorRouter = require('./door')
 
 const router = express.Router()
 
@@ -8,5 +9,6 @@ router.get('/', async (req, res) => {
 })
 
 router.use('/customers', CustomerRouter)
+router.use('/doors', DoorRouter)
 
 module.exports = router

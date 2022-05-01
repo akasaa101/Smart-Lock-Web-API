@@ -8,6 +8,6 @@ Backend application for Smart Lock project.
 $ git clone https://github.com/akasaa101/Smart-Lock.git
 $ cd Smart-Lock
 $ npm install
-$ npm run strt
+$ npm run start
 ```
 
