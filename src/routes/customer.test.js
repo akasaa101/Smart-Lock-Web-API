@@ -23,6 +23,19 @@ describe('Create Customer', () => {
 		expect(response.body.message).toEqual('created')
 		expect(response.body.customer).toBeDefined()
 	})
+	it('POST /customer - With invalid email or phone number on body, response status should return as 400, and response body should contain message.', async () => {
+		const customer = {
+			name: chance.first(),
+			surname: chance.last(),
+			phone: chance.phone(),
+			email: 'invalid@email',
+			password: chance.string({ length: 8, alpha: true, numeric: true, symbols: true }),
+		}
+		const response = await request.post('/customer').send(customer)
+		expect(response.status).toBe(400)
+		expect(response.body.status).toEqual('failed')
+		expect(response.body.message).toEqual('badrequest')
+	})
 })
 
 describe('Get All Customers', () => {

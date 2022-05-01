@@ -8,6 +8,15 @@ class CustomerController {
 	static async createCustomer(req, res, next) {
 		logger.info('[+] CONTROLLER - createCustomer  =>  Handle request')
 		const { name, surname, email, password } = req.body
+		if (
+			email
+				.toLowerCase()
+				.match(
+					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+				)
+		) {
+			console.log('haha')
+		}
 		Customer.find({ email })
 			.exec()
 			.then((customer) => {
