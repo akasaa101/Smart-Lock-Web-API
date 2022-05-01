@@ -8,15 +8,7 @@ class CustomerController {
 	static async createCustomer(req, res, next) {
 		logger.info('[+] CONTROLLER - createCustomer  =>  Handle request')
 		const { name, surname, email, password } = req.body
-		if (
-			email
-				.toLowerCase()
-				.match(
-					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-				)
-		) {
-			console.log('haha')
-		}
+
 		Customer.find({ email })
 			.exec()
 			.then((customer) => {
@@ -45,6 +37,22 @@ class CustomerController {
 						surname: doc.surname,
 						email: doc.email,
 					},
+				})
+			})
+			.catch((error) => {
+				next(new MongooseError(error.code, error.message))
+			})
+	}
+
+	static async getAllCustomers(req, res, next) {
+		logger.info('[+] CONTROLLER - getAllCustomers  =>  Handle request')
+
+		Customer.find()
+			.then((customers) => {
+				res.status(200).json({
+					status: 'success',
+					message: 'created',
+					customers,
 				})
 			})
 			.catch((error) => {

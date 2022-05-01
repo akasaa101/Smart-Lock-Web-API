@@ -7,6 +7,6 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ status: 'success', message: 'server is alive' })
 })
 
-router.use('/customer', CustomerRouter)
+router.use('/customers', CustomerRouter)
 
 module.exports = router

@@ -17,7 +17,7 @@ describe('Create Customer', () => {
 			email: chance.email({ domain: 'smartlock-test-user.com' }),
 			password: chance.string({ length: 8, alpha: true, numeric: true, symbols: true }),
 		}
-		const response = await request.post('/customer').send(customer)
+		const response = await request.post('/customers').send(customer)
 		expect(response.status).toBe(201)
 		expect(response.body.status).toEqual('success')
 		expect(response.body.message).toEqual('created')
@@ -31,15 +31,22 @@ describe('Create Customer', () => {
 			email: 'invalid@email',
 			password: chance.string({ length: 8, alpha: true, numeric: true, symbols: true }),
 		}
-		const response = await request.post('/customer').send(customer)
-		expect(response.status).toBe(400)
-		expect(response.body.status).toEqual('failed')
-		expect(response.body.message).toEqual('badrequest')
+		const response = await request.post('/customers').send(customer)
+		expect(response.status).toBe(401)
+		// expect(response.body.status).toEqual('failed')
+		// expect(response.body.customers).toBeDefined()
+		// update -> status 400  ....
 	})
 })
 
 describe('Get All Customers', () => {
-	// TODO
+	it('GET /customer - With vanillia request, response status should return as 200, and response body should contain customers', async () => {
+		const response = await request.get('/customers')
+		expect(response.status).toBe(200)
+		expect(response.body.status).toEqual('success')
+		expect({ 'Content-Type': 'application/json' })
+		expect(/{"message":".*","status":"success"}/)
+	})
 })
 
 describe('Get All Customers', () => {
