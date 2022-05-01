@@ -39,8 +39,8 @@ class CustomerController {
 					},
 				})
 			})
-			.catch((error) => {
-				next(new MongooseError(error.code, error.message))
+			.catch((err) => {
+				next(new MongooseError(err.code, err.message))
 			})
 	}
 
@@ -72,8 +72,37 @@ class CustomerController {
 					customer,
 				})
 			})
-			.catch((error) => {
-				next(new MongooseError(error.code, error.message))
+			.catch((err) => {
+				next(new MongooseError(err.code, err.message))
+			})
+	}
+
+	static async updateCustomer(req, res, next) {
+		logger.info('[+] CONTROLLER - getCustomer  =>  Handle request')
+
+		const filter = { _id: mongoose.Types.ObjectId(req.params.customerID) }
+		const update = { $set: req.body.updateParams }
+
+		Customer.findOneAndUpdate(filter, update, {
+			new: true,
+		})
+			.then((customer) => {
+				res.status(200).json({ status: 'success', message: 'updated', customer })
+			})
+			.catch((err) => {
+				next(new MongooseError(err.code, err.message))
+			})
+	}
+
+	static async deleteCustomer(req, res, next) {
+		logger.info('[+] CONTROLLER - deleteCustomer  =>  Handle request')
+
+		Customer.findOneAndDelete({ _id: mongoose.Types.ObjectId(req.params.customerID) })
+			.then(() => {
+				res.status(200).json({ status: 'success', message: 'deleted' })
+			})
+			.catch((err) => {
+				next(new MongooseError(err.code, err.message))
 			})
 	}
 }
