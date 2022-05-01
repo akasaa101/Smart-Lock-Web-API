@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Customer = require('../models/customer')
-const { MongooseError, ConflictError } = require('../errors')
+const { MongooseError, ConflictError, NotFoundError } = require('../errors')
 
 const logger = require('../../logger')
 
@@ -53,6 +53,23 @@ class CustomerController {
 					status: 'success',
 					message: 'created',
 					customers,
+				})
+			})
+			.catch((error) => {
+				next(new MongooseError(error.code, error.message))
+			})
+	}
+
+	static async getCustomer(req, res, next) {
+		logger.info('[+] CONTROLLER - getCustomer  =>  Handle request')
+
+		Customer.findById(req.params.customerID)
+			.then((customer) => {
+				if (customer === null) return next(new NotFoundError())
+				res.status(200).json({
+					status: 'success',
+					message: 'success',
+					customer,
 				})
 			})
 			.catch((error) => {

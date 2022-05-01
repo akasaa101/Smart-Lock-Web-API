@@ -9,7 +9,7 @@ const app = require('../app')
 const request = supertest(app)
 
 describe('Create Customer', () => {
-	it('POST /customer - With valid customer body, response status should return as 201, and response body should contain created customer.', async () => {
+	it('POST /customers - With valid customer body, response status should return as 201, and response body should contain created customer.', async () => {
 		const customer = {
 			name: chance.first(),
 			surname: chance.last(),
@@ -23,7 +23,7 @@ describe('Create Customer', () => {
 		expect(response.body.message).toEqual('created')
 		expect(response.body.customer).toBeDefined()
 	})
-	it('POST /customer - With invalid email or phone number on body, response status should return as 400, and response body should contain message.', async () => {
+	it('POST /customers - With invalid email or phone number on body, response status should return as 400, and response body should contain message.', async () => {
 		const customer = {
 			name: chance.first(),
 			surname: chance.last(),
@@ -40,7 +40,7 @@ describe('Create Customer', () => {
 })
 
 describe('Get All Customers', () => {
-	it('GET /customer - With vanillia request, response status should return as 200, and response body should contain customers', async () => {
+	it('GET /customers - With vanillia request, response status should return as 200, and response body should contain customers', async () => {
 		const response = await request.get('/customers')
 		expect(response.status).toBe(200)
 		expect(response.body.status).toEqual('success')
@@ -49,12 +49,21 @@ describe('Get All Customers', () => {
 	})
 })
 
-describe('Get All Customers', () => {
-	// TODO
-})
-
 describe('Get Single Customer', () => {
-	// TODO
+	it('GET /customer/:customer_id - With valid customer id on URL params, response status should return as 200, and response body should contain exact customer', async () => {
+		const response = await request.get('/customers/626dd510230fe728f740d574')
+		expect(response.status).toBe(200)
+		expect(response.body.status).toEqual('success')
+		expect({ 'Content-Type': 'application/json' })
+		expect(response.body.customer).toBeDefined()
+	})
+	it('GET /customer/:customer_id - With invalid customer id on URL params, response status should return as 404, and response body should contain notfound message', async () => {
+		const response = await request.get('/customers/626dd510230fe728f740d574')
+		expect(response.status).toBe(200)
+		expect(response.body.status).toEqual('success')
+		expect({ 'Content-Type': 'application/json' })
+		expect(response.body.customer).toBeDefined()
+	})
 })
 
 describe('Update A Customer', () => {
