@@ -7,7 +7,7 @@ const customerSchema = mongoose.Schema({
 	phone: {
 		type: String,
 		required: false,
-		unique: true,
+		unique: false,
 		match: /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g,
 		// Demo for this regex: https://www.regextester.com/103299
 	},

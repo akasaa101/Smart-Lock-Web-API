@@ -13,7 +13,7 @@ class DoorController {
 		})
 		Door.find({ number: req.body.number }).then((doc) => {
 			if (doc.length >= 1) {
-				next(new ConflictError('Customer email already exist'))
+				next(new ConflictError('Door number already exist'))
 			}
 		})
 		door.save()
@@ -33,12 +33,15 @@ class DoorController {
 			})
 	}
 
+	// HERE BACKEND get all doors
 	static async getAllDoors(req, res, next) {
 		logger.info('[+] CONTROLLER - createDoor  =>  Handle request')
 
-		Door.find()
+		Door.find() // Connect Database and find all datas
 			.then((doors) => {
+				// after call this datas as "doors"
 				res.status(200).json({
+					// send a response to frontend application
 					status: 'success',
 					message: 'created',
 					doors: doors.map((v) => ({
@@ -46,6 +49,8 @@ class DoorController {
 						id: v._id,
 						number: v.number,
 						status: v.status,
+						name: v.name,
+						users: v.users,
 					})),
 				})
 			})

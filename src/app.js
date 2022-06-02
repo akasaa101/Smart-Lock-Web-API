@@ -11,7 +11,7 @@ dotenv.config()
 const { errorLogger, errorResponder } = require('./middleware')
 
 mongoose
-	.connect(process.env.MONGO_URL, {
+	.connect('mongodb+srv://admin:bau-smart-lock-2022@smartlockdatabase.53a3u.mongodb.net/?retryWrites=true&w=majority', {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})

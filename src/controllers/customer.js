@@ -7,7 +7,7 @@ const logger = require('../../logger')
 class CustomerController {
 	static async createCustomer(req, res, next) {
 		logger.info('[+] CONTROLLER - createCustomer  =>  Handle request')
-		const { name, surname, email, password } = req.body
+		const { name, surname, email, password, phone } = req.body
 
 		Customer.find({ email })
 			.exec()
@@ -23,6 +23,7 @@ class CustomerController {
 					surname,
 					email,
 					password,
+					phone,
 				})
 				return customer.save()
 			})

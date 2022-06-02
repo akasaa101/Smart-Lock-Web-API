@@ -3,7 +3,7 @@ const app = require('./app')
 const logger = require('../logger')
 
 const server = http.createServer(app)
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 server.listen(port, () => {
 	logger.info(`🧑 Smart Lock Service Running On ${port}`)
