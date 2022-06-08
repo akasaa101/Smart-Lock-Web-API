@@ -2,6 +2,7 @@ const express = require('express')
 const CustomerRouter = require('./customer')
 const DoorRouter = require('./door')
 const AdminRouter = require('./admin')
+const AuthorizationRouter = require('./authorize')
 
 const router = express.Router()
 
@@ -10,7 +11,8 @@ router.get('/', async (req, res) => {
 })
 
 router.use('/customers', CustomerRouter)
-router.use('/doors', DoorRouter)
+router.use('/locks', DoorRouter)
 router.use('/admin', AdminRouter)
+router.use('/authorization', AuthorizationRouter)
 
 module.exports = router
