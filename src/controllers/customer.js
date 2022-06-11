@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 const mongoose = require('mongoose')
 const Customer = require('../models/customer')
+const Door = require('../models/door')
 const { MongooseError, ConflictError, NotFoundError } = require('../errors')
 
 const logger = require('../../logger')
@@ -104,6 +107,22 @@ class CustomerController {
 			})
 			.catch((err) => {
 				next(new MongooseError(err.code, err.message))
+			})
+	}
+
+	static async getLocksOfUser(req, res, next) {
+		logger.info('[+] CONTROLLER - get locks of user  =>  Handle request')
+
+		Door.find({ users: { $in: req.params.customerID } })
+			.then((doc) => {
+				const result = doc.map((door, doorIndex) => ({ id: door._id, name: door.name, status: door.status }))
+				res.status(200).json({ locks: result })
+			})
+			.catch((err) => {
+				res.status(500).json({
+					status: 'failed',
+					message: 'An error occurred while processing getLocksOfUser controller',
+				})
 			})
 	}
 }

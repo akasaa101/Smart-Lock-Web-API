@@ -3,6 +3,7 @@ const CustomerRouter = require('./customer')
 const DoorRouter = require('./door')
 const AdminRouter = require('./admin')
 const AuthorizationRouter = require('./authorize')
+const UserRouter = require('./user')
 
 const router = express.Router()
 
@@ -14,5 +15,6 @@ router.use('/customers', CustomerRouter)
 router.use('/locks', DoorRouter)
 router.use('/admin', AdminRouter)
 router.use('/authorization', AuthorizationRouter)
+router.use('/user', UserRouter)
 
 module.exports = router

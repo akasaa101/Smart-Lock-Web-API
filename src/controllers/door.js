@@ -71,6 +71,7 @@ class DoorController {
 		Door.findById(req.params.doorID)
 			.then((door) => {
 				if (door === null) return next(new NotFoundError())
+
 				res.status(200).json({
 					status: 'success',
 					message: 'success',

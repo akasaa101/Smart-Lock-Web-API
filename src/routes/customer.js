@@ -8,5 +8,5 @@ CustomerRouter.get('/:customerID', CustomerController.getCustomer)
 CustomerRouter.get('/', CustomerController.getAllCustomers)
 CustomerRouter.patch('/:customerID', CustomerController.updateCustomer)
 CustomerRouter.delete('/:customerID', CustomerController.deleteCustomer)
-
+CustomerRouter.get('/:customerID/locks', CustomerController.getLocksOfUser)
 module.exports = CustomerRouter
