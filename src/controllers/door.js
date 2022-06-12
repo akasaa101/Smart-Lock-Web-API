@@ -206,6 +206,47 @@ class DoorController {
 				console.log(err)
 			})
 	}
+
+	static async updateStatus(req, res, next) {
+		logger.info('[+] CONTROLLER - update status of lock  =>  Handle request')
+
+		const id = req.params.lock_id
+		const { status } = req.body
+		logger.error('asdalksjd')
+		if (!mongoose.Types.ObjectId.isValid(id)) {
+			return res.status(404).send({ message: 'lock not found' })
+		}
+		const filter = {
+			_id: mongoose.Types.ObjectId(id),
+		}
+
+		const updateParams = {
+			status,
+		}
+
+		Door.findById(id)
+			.then((doc) => {
+				if (!doc) {
+					return res.status(404).json({ message: 'lock cannot be found' })
+				}
+				return doc
+			})
+			.then(() => Door.findOneAndUpdate(filter, updateParams, { new: true }))
+			.then((doc) => {
+				res.status(201).json({
+					status: 'success',
+					lock: {
+						id: doc.id,
+						status: doc.status,
+						name: doc.name,
+						users: doc.users,
+					},
+				})
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
 }
 
 module.exports = DoorController

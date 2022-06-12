@@ -9,4 +9,6 @@ DoorRouter.get('/', DoorController.getAllDoors)
 DoorRouter.post('/:lock_id/addUser', DoorController.addUser)
 DoorRouter.post('/:lock_id/removeUser', DoorController.removeUser)
 
+DoorRouter.patch('/:lock_id/status', DoorController.updateStatus)
+
 module.exports = DoorRouter
