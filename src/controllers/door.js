@@ -151,29 +151,34 @@ class DoorController {
 		logger.info('[+] CONTROLLER - add users  =>  Handle request')
 
 		const id = req.params.lock_id
-		const { user } = req.body
+		const { userId } = req.body
 		const filter = {
 			_id: id,
 		}
 
 		const updateParams = {
 			$push: {
-				users: user,
+				users: userId,
 			},
 		}
+
+		if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(userId)) {
+			return res.status(404).send({ message: 'lock or user can not found' })
+		}
+
 		Door.findById(id)
 			.then((doc) => {
-				if (doc.users.includes(user)) res.status(401).json({ status: 'failed', message: 'User already authorized for this lock.' })
+				if (doc.users.includes(userId)) res.status(401).json({ status: 'failed', message: 'User already authorized for this lock.' })
 			})
 			.then(() => Door.findOneAndUpdate(filter, updateParams, { new: true }))
-			.then((doc) => {
+			.then((doc) =>
 				res.status(201).json({
 					status: 'success',
 					lock: doc,
 				})
-			})
+			)
 			.catch((err) => {
-				console.log(err)
+				logger.error(err)
 			})
 	}
 
@@ -181,19 +186,23 @@ class DoorController {
 		logger.info('[+] CONTROLLER - add users  =>  Handle request')
 
 		const id = req.params.lock_id
-		const { user } = req.body
+		const { userId } = req.body
 		const filter = {
 			_id: id,
 		}
 
 		const updateParams = {
 			$pull: {
-				users: user,
+				users: userId,
 			},
 		}
+		if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(userId)) {
+			return res.status(404).send({ message: 'lock or user can not found' })
+		}
+
 		Door.findById(id)
 			.then((doc) => {
-				if (!doc.users.includes(user)) res.status(401).json({ status: 'failed', message: 'User already un-authorized for this lock.' })
+				if (!doc.users.includes(userId)) res.status(401).json({ status: 'failed', message: 'User already un-authorized for this lock.' })
 			})
 			.then(() => Door.findOneAndUpdate(filter, updateParams, { new: true }))
 			.then((doc) => {
