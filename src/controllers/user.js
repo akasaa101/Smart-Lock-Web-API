@@ -88,6 +88,13 @@ class UserController {
 						return res.status(200).json({
 							message: 'Auth successful',
 							token,
+							user: {
+								id: user[0].id,
+								name: user[0].name,
+								surname: user[0].surname,
+								phone: user[0].phone,
+								email: user[0].email,
+							},
 						})
 					}
 					res.status(401).json({
