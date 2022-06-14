@@ -1,6 +1,6 @@
 # Smart Lock RestFull API
 
-This project is Capstone Project of  Bahcesehir University. 
+This is the Capstone Project of Bahcesehir University.
 In this application We applied;
 
 - RestFull API's with Express.js
