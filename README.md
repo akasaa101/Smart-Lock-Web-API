@@ -5,6 +5,7 @@ In this application We applied;
 
 - RestFull API's with Express.js
 - Containerized with Docker
+- Tests with Jest/Supertest
 - CD/CI pipeline and deployment with Heroku
 - Logger with Winston
 - Clean Code  - Eslint/Prettier (air-bnb)
