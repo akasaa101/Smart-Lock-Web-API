@@ -242,7 +242,7 @@ class DoorController {
 			})
 			.then(() => Door.findOneAndUpdate(filter, updateParams, { new: true }))
 			.then((doc) => {
-				res.status(201).json({
+				res.status(200).json({
 					status: 'success',
 					lock: {
 						id: doc.id,

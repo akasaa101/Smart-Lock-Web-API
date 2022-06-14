@@ -9,7 +9,6 @@ const customerSchema = mongoose.Schema({
 		required: false,
 		unique: false,
 		match: /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g,
-		// Demo for this regex: https://www.regextester.com/103299
 	},
 	email: {
 		type: String,

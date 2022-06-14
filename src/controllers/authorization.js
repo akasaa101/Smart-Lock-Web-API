@@ -12,17 +12,25 @@ class AuthorizationController {
 		const { user, lock } = req.body
 		Door.findById(lock)
 			.then((doc) => {
+				if (doc.status !== 'active') {
+					return res.status(403).json({
+						status: 'failed',
+						message: 'The Lock was not active',
+					})
+				}
+
 				if (doc.users.includes(user)) {
-					res.status(200).json({
+					return res.status(200).json({
 						status: 'success',
 						authorization: 'Success',
 					})
-				} else {
-					res.status(401).json({
-						status: 'failed',
-						authorization: 'Unauthorized',
-					})
 				}
+
+				return res.status(403).json({
+					status: 'failed',
+					authorization: 'Failed',
+					message: 'The user is not authorized for this lock.',
+				})
 			})
 			.catch((err) => {
 				console.log(err)
